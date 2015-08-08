@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: Cfair
+        psr4_prefix: Cfair
+        src_path: app
