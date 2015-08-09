@@ -18,10 +18,10 @@ class CreateConversionMessagesTable extends Migration
             $table->integer('userId')->unsigned();
             $table->char('currencyFrom',3);
             $table->char('currencyTo',3);
-            $table->decimal('amountSell',10,4);
-            $table->decimal('amountBuy',10,4);
+            $table->decimal('amountSell',10,4)->nullable()->defeult('NULL');
+            $table->decimal('amountBuy',10,4)->nullable()->defeult('NULL');
             $table->decimal('rate',10,6);
-            $table->char('timePlaced',3);
+            $table->dateTime('timePlaced');
             $table->char('originatingCountry',2);
             $table->timestamps();
         });

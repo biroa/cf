@@ -1,7 +1,8 @@
 <?php namespace Cfair\Commands;
 
-abstract class Command {
+abstract class Command
+{
 
-	//
+    //
 
 }

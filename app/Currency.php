@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Currency extends Model {
+class Currency extends Model
+{
 
     //
 
