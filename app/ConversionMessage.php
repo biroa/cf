@@ -35,6 +35,9 @@ class ConversionMessage extends Model
      */
     protected $hidden =
         [
-            'userID'
+//            'id',
+//            'userId',
+            'created_at',
+            'updated_at'
         ];
 }

@@ -3,24 +3,36 @@
 use Cfair\Interfaces\ConversionMessageInterface;
 use Cfair\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Auth\Guard;
 
 class ConversionMessageController extends Controller
 {
 
     protected $conversionMessage;
+    protected $userID;
 
     public function __construct(ConversionMessageInterface $conversionMessage){
+        //authenticating messages route with middleware
+        //$this->middleware('auth');
         $this->conversionMessage = $conversionMessage;
     }
 
+
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource based on userID
      *
-     * @return Response
+     * @param \Illuminate\Contracts\Auth\Guard $guard
+     *
+     * @return mixed
      */
-    public function index()
+    public function index(Guard $guard)
     {
-        return $this->conversionMessage->getAll();
+        //Todo:: I have to delete this after I set back auth
+        $this->userID = $guard->user();
+        if(empty($this->userID)){
+            $this->userID = 1;
+        }
+        return $this->conversionMessage->findByUserId($this->userID);
     }
 
     /**
@@ -30,7 +42,7 @@ class ConversionMessageController extends Controller
      */
     public function create()
     {
-        //
+        dd('create');
     }
 
     /**
@@ -40,7 +52,8 @@ class ConversionMessageController extends Controller
      */
     public function store()
     {
-        //
+        dd('called');
+//        return $this->conversionMessage->create();
     }
 
     /**
@@ -52,7 +65,7 @@ class ConversionMessageController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->conversionMessage->find($id);
     }
 
     /**
@@ -64,7 +77,7 @@ class ConversionMessageController extends Controller
      */
     public function edit($id)
     {
-        //
+        dd('edit');
     }
 
     /**
