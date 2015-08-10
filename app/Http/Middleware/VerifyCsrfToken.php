@@ -1,37 +1,16 @@
-<?php namespace Cfair\Http\Middleware;
-
+<?php namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
-
-class VerifyCsrfToken extends BaseVerifier
-{
-
+class VerifyCsrfToken extends BaseVerifier {
     /**
-     *  CSRF protection in laravel5 is always active with the implementation of Middleware
-     *  I have to turn it off because Laravel banned my API post request.
-     */
-
-        private $openRoutes = [
-            'api/messages'
-        ];
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param callable                 $next
+     * Handle an incoming request.
      *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        foreach($this->openRoutes as $route)
-        {
-            if ($request->is($route))
-            {
-                return $next($request);
-            }
-        }
-
-        with( new LaravelsVerifyCsrfToken)->handle();
+        return parent::handle($request, $next);
     }
-
 }
