@@ -14,5 +14,10 @@ class ConversionMessageCest
     // tests
     public function tryToTest(ApiTester $I)
     {
+        $I->wantTo('Get all Language');
+        $I->sendGET('api/messages');
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+        $I->seeResponseContains('originatingCountry');
     }
 }
