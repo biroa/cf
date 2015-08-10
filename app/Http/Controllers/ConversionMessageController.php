@@ -4,6 +4,7 @@ use Cfair\Interfaces\ConversionMessageInterface;
 use Cfair\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Support\Facades\Input;
 
 class ConversionMessageController extends Controller
 {
@@ -52,8 +53,7 @@ class ConversionMessageController extends Controller
      */
     public function store()
     {
-        dd('called');
-//        return $this->conversionMessage->create();
+        return $this->conversionMessage->create(Input::all());
     }
 
     /**
