@@ -22,3 +22,9 @@ Route::controllers([
     'password' => 'Auth\PasswordController',
 ]);
 Route::resource('api/messages', 'ConversionMessageController');
+
+//Todo:: remove after at the end of the work
+Event::listen('illuminate.query', function($query)
+{
+    Log::info($query);
+});

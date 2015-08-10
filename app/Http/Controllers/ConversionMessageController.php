@@ -1,9 +1,9 @@
 <?php namespace Cfair\Http\Controllers;
 
-use Cfair\Interfaces\ConversionMessageInterface;
 use Cfair\Http\Requests;
-use Illuminate\Http\Request;
+use Cfair\Interfaces\ConversionMessageInterface;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Routing\ResponseFactory as Response;
 use Illuminate\Support\Facades\Input;
 
 class ConversionMessageController extends Controller
@@ -11,13 +11,35 @@ class ConversionMessageController extends Controller
 
     protected $conversionMessage;
     protected $userID;
+    protected $response;
+    protected $statusMsg;
+    protected $errorAPI = 'ERROR';
+    protected $successAPI = 'SUCCESS';
 
-    public function __construct(ConversionMessageInterface $conversionMessage){
+    public function __construct(ConversionMessageInterface $conversionMessage, Response $factory)
+    {
         //authenticating messages route with middleware
         //$this->middleware('auth');
         $this->conversionMessage = $conversionMessage;
+        $this->response = $factory;
     }
 
+    /**
+     * Return messagebyStatusCode
+     *
+     * @param $statusCode
+     *
+     * @return string
+     */
+    public function messageByStatusCode($statusCode){
+        if ( $statusCode == 200 ) {
+            $this->statusMsg = $this->successAPI;
+        } elseif ( $statusCode == 400 ) {
+            $this->statusMsg = $this->errorAPI;
+        }
+
+        return $this->statusMsg;
+    }
 
     /**
      * Display a listing of the resource based on userID
@@ -30,10 +52,13 @@ class ConversionMessageController extends Controller
     {
         //Todo:: I have to delete this after I set back auth
         $this->userID = $guard->user();
-        if(empty($this->userID)){
+        if ( empty($this->userID) ) {
             $this->userID = 1;
         }
-        return $this->conversionMessage->findByUserId($this->userID);
+
+        list($data, $statusCode) = $this->conversionMessage->findByUserId($this->userID);
+        $message = $this->messageByStatusCode($statusCode);
+        return $this->response->json([ $message => $data ], $statusCode);
     }
 
     /**
@@ -43,7 +68,7 @@ class ConversionMessageController extends Controller
      */
     public function create()
     {
-        dd('create');
+        //create()
     }
 
     /**
@@ -53,7 +78,10 @@ class ConversionMessageController extends Controller
      */
     public function store()
     {
-        return $this->conversionMessage->create(Input::all());
+
+        list($data, $statusCode) = $this->conversionMessage->create(Input::all());
+        $message = $this->messageByStatusCode($statusCode);
+        return $this->response->json([ $message => $data ], $statusCode);
     }
 
     /**
@@ -65,7 +93,10 @@ class ConversionMessageController extends Controller
      */
     public function show($id)
     {
-        return $this->conversionMessage->find($id);
+
+        list($data, $statusCode) = $this->conversionMessage->find($id);
+        $message = $this->messageByStatusCode($statusCode);
+        return $this->response->json([ $message => $data ], $statusCode);
     }
 
     /**
@@ -77,7 +108,7 @@ class ConversionMessageController extends Controller
      */
     public function edit($id)
     {
-        dd('edit');
+        //edit()
     }
 
     /**
@@ -89,7 +120,7 @@ class ConversionMessageController extends Controller
      */
     public function update($id)
     {
-        //
+        //delete()
     }
 
     /**
@@ -101,7 +132,7 @@ class ConversionMessageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //destroy()
     }
 
 }

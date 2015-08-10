@@ -12,6 +12,10 @@ class ConversionMessage extends Model
      */
     protected $table = 'conversion_messages';
 
+    protected $guarded =
+        [
+            'id'
+        ];
     /**
      * The attributes that are mass assignable.
      *
@@ -36,9 +40,7 @@ class ConversionMessage extends Model
      */
     protected $hidden =
         [
-//            'id',
+            'id',
 //            'userId',
-            'created_at',
-            'updated_at'
         ];
 }
