@@ -11,13 +11,23 @@ class ConversionMessageCest
     {
     }
 
-    // tests
-    public function tryToTest(ApiTester $I)
+    public function index(ApiTester $I)
     {
-        $I->wantTo('Get all Language');
-        $I->sendGET('api/messages');
+        $I->wantTo('Get all user related conversion messages');
+        $I->sendGET('http://currencyfairtest.com/api/messages');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContains('originatingCountry');
     }
+
+    public function create(ApiTester $I)
+    {
+        $I->wantTo('save data');
+        $I->sendPost('http://currencyfairtest.com/api/messages');
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+        $I->seeResponseContains('saved');
+    }
+
+
 }
