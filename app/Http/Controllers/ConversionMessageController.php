@@ -5,6 +5,7 @@ use Cfair\Interfaces\ConversionMessageInterface;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Routing\ResponseFactory as Response;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 
 class ConversionMessageController extends Controller
 {
@@ -53,12 +54,12 @@ class ConversionMessageController extends Controller
     public function index(Guard $guard)
     {
         //Todo:: I have to delete this after I set back auth
-        $this->userID = $guard->user();
-        if ( empty($this->userID) ) {
-            $this->userID = 1;
+        $user = $guard->user();
+        if ( empty($user->id) ) {
+            $user->id = 1;
         }
 
-        list($data, $statusCode) = $this->conversionMessage->findByUserId($this->userID);
+        list($data, $statusCode) = $this->conversionMessage->findByUserId($user->id);
         $message = $this->messageByStatusCode($statusCode);
         return $this->response->json([ $message => $data ], $statusCode);
     }

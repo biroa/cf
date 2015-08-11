@@ -16,7 +16,7 @@ class ConversionMessage extends Model
         [
             'id',
             'is_sell',
-             'conversion'
+            'conversion'
         ];
     protected $v;
     protected $errors;
@@ -39,11 +39,50 @@ class ConversionMessage extends Model
         ];
 
 
-    public function setConversion($base,$rate){
+    /**
+     * @param $base
+     * @param $rate
+     *
+     * @return string
+     */
+    public function setSellConversion($base, $rate)
+    {
         return bcmul($base, $rate, 4);
     }
 
 
+    /**
+     * @param $base
+     * @param $rate
+     *
+     * @return string
+     */
+    public function setBuyConversion($base, $rate)
+    {
+        return bcdiv($base, $rate, 4);
+    }
+
+
+    /**
+     * @param $value
+     *
+     * @return bool|string
+     */
+    public function setTimePlaced($value)
+    {
+        return date('Y-m-d H:i:s', strtotime($value));
+    }
+
+
+    /**
+     * @param $value
+     *
+     * @return bool|string
+     */
+    public function getTimePlacedAttribute($value)
+    {
+        return date('d-M-y H:i:s', strtotime($value));
+    }
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -68,15 +107,18 @@ class ConversionMessage extends Model
         'originatingCountry' => 'required|size:2',
     ];
 
-    public function ruleSellAndBuyEmpty(){
+    public function ruleSellAndBuyEmpty()
+    {
         return 'amountSell and amountBuy fields are empty! You have to fill one at least';
     }
 
-    public function ruleSellAndBuyFilled(){
+    public function ruleSellAndBuyFilled()
+    {
         return 'amountSell and amountBuy fields are filled! You have to fill one at once!';
     }
 
-    public function ruleSellAndBuyUnknown(){
+    public function ruleSellAndBuyUnknown()
+    {
         return 'Unknown error!';
     }
 

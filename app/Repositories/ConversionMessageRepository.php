@@ -20,6 +20,7 @@ class ConversionMessageRepository implements ConversionMessageInterface
     {
         try {
             $statusCode = $this->noErrorSuccess;
+
             $this->data = ConversionMessage::all();
         } catch ( Exception $e ) {
             $statusCode = $this->forbiddenError;
@@ -107,13 +108,13 @@ class ConversionMessageRepository implements ConversionMessageInterface
                 $this->data->amountSell = $input['amountSell'];
                 $this->data->is_sell = true;
                 $base = $this->data->amountSell;
-
+                $this->data->conversion = $this->data->setSellConversion($base, $this->data->rate);
             } elseif ( empty($input['amountSell']) && !empty($input['amountBuy']) ) {
 
                 $this->data->amountBuy = $input['amountBuy'];
                 $this->data->is_sell = false;
                 $base = $this->data->amountBuy;
-
+                $this->data->conversion = $this->data->setBuyConversion($base, $this->data->rate);
             } else {
                 $statusCode = $this->forbiddenError;
                 $errors = $this->data->ruleSellAndBuyUnknown();
@@ -121,7 +122,7 @@ class ConversionMessageRepository implements ConversionMessageInterface
                 return [ $errors, $statusCode ];
             }
 
-            $this->data->conversion = $this->data->setConversion($base, $this->data->rate);
+            $this->data->timePlaced = $this->data->setTimePlaced($input['timePlaced']);
             if ( $this->data->save() ) {
                 $statusCode = $this->noErrorSuccess;
 
