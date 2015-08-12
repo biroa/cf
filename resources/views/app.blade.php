@@ -15,8 +15,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.3/angular-sanitize.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.3/angular-animate.js"></script>
     <script src="/js/main.js"></script>
-    <script src="/models/MoCurrency.js"></script>
-    <script src="/models/MoCurrencyMessages.js"></script>
+    <script src="js/models/MoCurrency.js"></script>
+    <script src="js/models/MoCurrencyMessages.js"></script>
     <script src="/js/controllers/CoCurrency.js"></script>
     <script src="/js/controllers/CoConversionMessage.js"></script>
 
