@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
+    <div class="row" ng-controller="conversionMessage">
         <div class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-heading">BUY OR SELL CURRENCY</div>
@@ -37,7 +37,7 @@
                 <div class="row spacial">
                     <div class="control-group">
                         <div class="col-md-12 text-center spacer">
-                            <button type="button" class="btn btn-primary btn-sm">
+                            <button type="button" class="btn btn-primary btn-sm" ng-click="currency.doClick()">
                                 Submit
                             </button>
                         </div>
