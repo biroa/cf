@@ -22,8 +22,9 @@
 table.conversion {
     background-color: transparent;
     width: 100%!important;
-
+    border: 1px solid transparent;
 }
+
 
 table.conversion, th.conversion , td.conversion  {
     border: 1px solid grey;

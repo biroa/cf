@@ -67,8 +67,9 @@
                             <th class="conversion">currencyFrom</td>
                             <th class="conversion">currencyTo</td>
                             <th class="conversion">rate</td>
-                            <th class="conversion">timePlaced</td>
                             <th class="conversion">conversion</td>
+                            <th class="conversion">timePlaced</td>
+
                         </tr>
                         <tr class="conversion" ng-repeat="x in messageData">
                             <td class="conversion" ng-bind="x.amountBuy"></td>
@@ -76,8 +77,8 @@
                             <td class="conversion" ng-bind="x.currencyFrom"></td>
                             <td class="conversion" ng-bind="x.currencyTo"></td>
                             <td class="conversion" ng-bind="x.rate"></td>
-                            <td class="conversion" ng-bind="x.timePlaced"></td>
                             <td class="conversion" ng-bind="x.conversion"></td>
+                            <td class="conversion" ng-bind="x.timePlaced"></td>
                         </tr>
                     </table>
                 </div>
