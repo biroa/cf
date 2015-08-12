@@ -18,3 +18,22 @@
 .form-control.spec{
     font-weight: bold;
 }
+
+table.conversion {
+    background-color: transparent;
+    width: 100%!important;
+
+}
+
+table.conversion, th.conversion , td.conversion  {
+    border: 1px solid grey;
+    border-collapse: collapse;
+    padding: 5px;
+    margin: 5px;
+}
+table.conversion tr:nth-child(odd)	{
+    background-color: #f1f1f1;
+}
+table.conversion tr:nth-child(even) {
+    background-color: #ffffff;
+}
