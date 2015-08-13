@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ConversionMessage extends Model
 {
+    public $defaultIP = '89.100.85.240';
     /**
      * The database table used by the model.
      *
@@ -16,7 +17,8 @@ class ConversionMessage extends Model
         [
             'id',
             'is_sell',
-            'conversion'
+            'conversion',
+            'originatingCountry'
         ];
     protected $v;
     protected $errors;
@@ -33,8 +35,7 @@ class ConversionMessage extends Model
             'amountSell',
             'amountBuy',
             'rate',
-            'timePlaced',
-            'originatingCountry'
+            'timePlaced'
 
         ];
 
@@ -97,14 +98,14 @@ class ConversionMessage extends Model
 
     //required_without: AmountSell or AmountBuy must be presented at least
     private $rules = [
-        'userId' => 'integer',
+        'userId' => 'integer',//todo:: I have to set this back to required at the end of development
         'currencyFrom' => 'required|size:3',//size = exact length in char
         'currencyTo' => 'required|size:3',
         'amountSell' => 'required_without:amountBuy|numeric|min:100',
         'amountBuy' => 'required_without:amountSell|numeric|min:200',
-        'rate' => 'numeric',
+        'rate' => 'required|numeric',
         'timePlaced' => 'date_format:y-M-d H:i:s',
-        'originatingCountry' => 'required|size:2',
+        //'originatingCountry' => 'required|size:2', //we do not use it we fill out with php
     ];
 
     public function ruleSellAndBuyEmpty()

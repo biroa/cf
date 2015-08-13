@@ -11,6 +11,11 @@ class ConversionMessageRepository implements ConversionMessageInterface
     protected $forbiddenError = 400;
     protected $noErrorSuccess = 200;
 
+    public function __construct()
+    {
+        $this->data = new ConversionMessage();
+    }
+
     /**
      * get All record
      *
@@ -21,7 +26,7 @@ class ConversionMessageRepository implements ConversionMessageInterface
         try {
             $statusCode = $this->noErrorSuccess;
 
-            $this->data = ConversionMessage::all();
+            $this->data->all();
         } catch ( Exception $e ) {
             $statusCode = $this->forbiddenError;
         } finally {
@@ -40,7 +45,7 @@ class ConversionMessageRepository implements ConversionMessageInterface
     {
         try {
             $statusCode = $this->noErrorSuccess;
-            $this->data = ConversionMessage::find($id);
+            $this->data->find($id);
         } catch ( Exception $e ) {
             $statusCode = $this->forbiddenError;
         } finally {
@@ -60,7 +65,7 @@ class ConversionMessageRepository implements ConversionMessageInterface
     {
         try {
             $statusCode = $this->noErrorSuccess;
-            $this->data = ConversionMessage::where('userId', '=', $userID)->get();
+            $this->data = $this->data->where('userId', '=', $userID)->get();
         } catch ( Exception $e ) {
             $statusCode = $this->forbiddenError;
         } finally {
@@ -68,7 +73,13 @@ class ConversionMessageRepository implements ConversionMessageInterface
         }
 
     }
-
+    
+    /**
+     * @param $sell
+     * @param $buy
+     *
+     * @return array|bool
+     */
     public function sellOrBuy($sell, $buy)
     {
         if ( !empty($sell) && !empty($buy) ||
@@ -83,13 +94,29 @@ class ConversionMessageRepository implements ConversionMessageInterface
             return false;
         }
 
-
     }
 
+    /**
+     * If we testing we provide a default Remote Address
+     *
+     * @return string
+     */
+    public function getIP()
+    {
+        if ( !empty($_SERVER['REMOTE_ADDR']) ) {
+            return geoip_country_code_by_name($_SERVER['REMOTE_ADDR']);
+        }
+
+        return $this->data->defaultIP;
+    }
+
+    /**
+     * @param $input
+     *
+     * @return array
+     */
     public function create($input)
     {
-
-        $this->data = new ConversionMessage();
 
         if ( $this->data->validate($input) ) {
 
@@ -97,7 +124,7 @@ class ConversionMessageRepository implements ConversionMessageInterface
                 $this->data->$fields = $value;
             }
 
-
+            $this->data->originatingCountry = $this->getIP();
             if ( !empty($input['amountSell']) && !empty($input['amountBuy']) ) {
                 $statusCode = $this->forbiddenError;
                 $errors = $this->data->ruleSellAndBuyFilled();
