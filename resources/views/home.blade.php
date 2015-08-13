@@ -78,7 +78,7 @@
                             <td class="conversion" ng-bind="x.currencyTo"></td>
                             <td class="conversion" ng-bind="x.rate"></td>
                             <td class="conversion" ng-bind="x.conversion"></td>
-                            <td class="conversion" ng-bind="x.timePlaced"></td>
+                            <td class="conversion" ng-bind="(x.timePlaced | dateMod)"></td>
                         </tr>
                     </table>
                 </div>
