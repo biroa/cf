@@ -1,40 +1,41 @@
-.spacer{
+.spacer {
     margin-top: 5px;
     margin-bottom: 5px;
 }
 
-.button_spacer{
+.button_spacer {
     margin-top: 2px;
     margin-bottom: 2px;
 }
 
-.row.special .panel-body{
+.row.special .panel-body {
     padding-left: 15px;
     padding-right: 15px;
     padding-bottom: 5px;
     padding-top: 5px;
 }
 
-.form-control.spec{
+.form-control.spec {
     font-weight: bold;
 }
 
 table.conversion {
     background-color: transparent;
-    width: 100%!important;
+    width: 100% !important;
     border: 1px solid transparent;
 }
 
-
-table.conversion, th.conversion , td.conversion  {
+table.conversion, th.conversion, td.conversion {
     border: 1px solid grey;
     border-collapse: collapse;
     padding: 5px;
     margin: 5px;
 }
-table.conversion tr:nth-child(odd)	{
+
+table.conversion tr:nth-child(odd) {
     background-color: #f1f1f1;
 }
+
 table.conversion tr:nth-child(even) {
     background-color: #ffffff;
 }
