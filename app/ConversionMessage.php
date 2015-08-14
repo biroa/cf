@@ -93,7 +93,7 @@ class ConversionMessage extends Model
     protected $hidden =
         [
             'id',
-//            'userId',
+            'userId',
         ];
 
     //required_without: AmountSell or AmountBuy must be presented at least
@@ -104,18 +104,18 @@ class ConversionMessage extends Model
         'amountSell' => 'required_without:amountBuy|numeric|min:100',
         'amountBuy' => 'required_without:amountSell|numeric|min:200',
         'rate' => 'required|numeric',
-        'timePlaced' => 'date_format:y-M-d H:i:s',
+        'timePlaced' => 'date_format:y-M-d H:i:s'
         //'originatingCountry' => 'required|size:2', //we do not use it we fill out with php
     ];
 
     public function ruleSellAndBuyEmpty()
     {
-        return 'amountSell and amountBuy fields are empty! You have to fill one at least';
+        return [ 'amountSellamountBuy' => 'amountSell and amountBuy fields are empty! You have to fill one at least' ];
     }
 
     public function ruleSellAndBuyFilled()
     {
-        return 'amountSell and amountBuy fields are filled! You have to fill one at once!';
+        return [ 'amountSellamountBuy' => 'amountSell and amountBuy fields are filled! You have to fill one at once!' ];
     }
 
     public function ruleSellAndBuyUnknown()
