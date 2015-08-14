@@ -6,7 +6,7 @@
 
         <div class="col-md-12" ng-if="errorBag" ng-cloak>
             <div class="alert alert-danger" role="alert">
-                <div ng-repeat="(key, value) in errorBag">
+                <div ng-repeat="(key, value) in errorBag track by $index">
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                     <span class="sr-only">Error:</span><span ng-bind="value"></span>
                 </div>
@@ -20,11 +20,11 @@
                         <div class="col-md-12"></div>
                         <div class="col-md-6 text-left spacer">
                             <div class="control-group">
-                                <input type="text" placeholder="buy" ng-model="currency.amountBuy" class="form-control spec"></div>
+                                <input type="text" placeholder="buy" ng-model="currencyMessage.amountBuy" class="form-control spec"></div>
                             </div>
                         <div class="col-md-6 text-right spacer">
                             <div class="control-group" ng-controller="currencyController">
-                                <select class="form-control spec"  ng-model="currency.from" ng-options="c for c  in currency"></select>
+                                <select class="form-control spec"  ng-model="currencyMessage.currencyFrom" ng-options="c for c  in currency"></select>
                             </div>
                         </div>
                     </div>
@@ -34,11 +34,11 @@
                         <div class="col-md-12"></div>
                         <div class="col-md-6 text-left spacer">
                             <div class="control-group">
-                                <input type="text" placeholder="sell" ng-model="currency.amountSell" class="form-control spec"></div>
+                                <input type="text" placeholder="sell" ng-model="currencyMessage.amountSell" class="form-control spec"></div>
                             </div>
                         <div class="col-md-6 text-right button_spacer">
                             <div class="control-group" ng-controller="currencyController">
-                                <select class="form-control spec" ng-model="currency.to" ng-options="c for c  in currency"></select>
+                                <select class="form-control spec" ng-model="currencyMessage.currencyTo" ng-options="c for c  in currency"></select>
                             </div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                     <div class="panel-body">
                         <div class="col-md-2"></div>
                         <div class="col-md-10">
-                            <input type="text" placeholder="rate" ng-model="currency.rate" class="form-control spec">
+                            <input type="text" placeholder="rate" ng-model="currencyMessage.rate" class="form-control spec">
                         </div>
                         <div class="col-md-2"></div>
                     </div>
@@ -62,7 +62,7 @@
                 <div class="row spacial">
                     <div class="control-group">
                         <div class="col-md-12 text-center spacer">
-                            <button type="button" class="btn btn-primary btn-sm" ng-click='doClick()'>
+                            <button type="button" class="btn btn-primary btn-sm" ng-click='saveNewConversionMsg()'>
                                 Submit
                             </button>
                         </div>

@@ -1,3 +1,7 @@
+/**
+ * Convert the stored default yyyy-mm-dd H:i:s date to the
+ * expected format
+ */
 App.filter('dateMod', function () {
 
     var monthNames = [
@@ -33,43 +37,51 @@ App.controller("conversionMessage",
     [
         '$scope',
         '$filter',
+        '$timeout',
         'CurrencyMessages',
-        function ($scope, $filter, CurrencyMessages) {
+        function ($scope, $filter, $timeout, CurrencyMessages) {
             $scope.messageData = {};
-            $scope.currency = {};
-            $scope.currency.timePlaced = $filter('dateMod')(new Date());
-
-            $scope.$on('selectedCurrencyTo',
-                function (e, a) {
-                    $scope.currency['currencyTo'] = a.currencyTo;
-                });
-            $scope.$on('selectedCurrencyFrom',
-                function (e, a) {
-                    $scope.currency['currencyFrom'] = a.currencyFrom;
-                });
 
             $scope.currencyMessage = new CurrencyMessages();
-            $scope.messages = $scope.currencyMessage.$query();
-            $scope.messages.then(function (response) {
-                $scope.messageData = response.SUCCESS;
-                console.log($scope.messageData);
-            });
+            /**
+             * Get conversion message data using
+             * CurrencyMessages model
+             * @param $scope
+             */
+            $scope.getData = function($scope){
+                $scope.messages = $scope.currencyMessage.$query();
+                $scope.messages.then(function (response) {
+                    $scope.messageData = response.SUCCESS;
+                });
+            };
 
-            $scope.doClick = function () {
-                console.log($scope.currency);
-                console.log(typeof $scope.currency);
-                $scope.currencyMessage.$save($scope.currency, function () {
-                    // on success we get the user ID based on email address
+            $scope.getData($scope);
 
+            /**
+             * save new message into the database
+             */
+            $scope.saveNewConversionMsg = function () {
+                $scope.cm = new CurrencyMessages();
+                $scope.cm.timePlaced = $filter('dateMod')(new Date());
+                $scope.cm.userId = userID;
+                $scope.cm.currencyFrom = $scope.currencyMessage.currencyFrom;
+                $scope.cm.currencyTo = $scope.currencyMessage.currencyTo;
+                $scope.cm.rate = $scope.currencyMessage.rate;
+                $scope.cm.amountBuy = $scope.currencyMessage.amountBuy;
+                $scope.cm.amountSell = $scope.currencyMessage.amountSell;
+                $scope.cm.$save(function () {
+                    //We retrieve newly inserted data 2 seconds after a successful save
+                    setTimeout(function () {
+                        $scope.$apply(function () {
+                            $scope.getData($scope);
+                        });
+                    }, 2000);
 
                 }, function (error) {
-                    console.log($scope.currency);
+                    console.log($scope.cm);
                     //User save error
                     console.log(error);
                     $scope.errorBag = error.data.ERROR;
-                    for (i in $scope.errorBag) {
-                        console.log(typeof $scope.errorBag[i][0]);
-                    }
                 });
             }
 
