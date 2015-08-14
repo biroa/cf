@@ -54,12 +54,13 @@ class ConversionMessageController extends Controller
     public function index(Guard $guard)
     {
         //Todo:: I have to delete this after I set back auth
-        $user = $guard->user();
-        if ( empty($user->id) ) {
-            $user->id = 1;
+        if(!empty($guard->user())) {
+            $userObj = $guard->user();
+            $userId = $guard->user()->id;
+        }else{
+            $userId = 1;
         }
-
-        list($data, $statusCode) = $this->conversionMessage->findByUserId($user->id);
+        list($data, $statusCode) = $this->conversionMessage->findByUserId($userId);
         $message = $this->messageByStatusCode($statusCode);
         return $this->response->json([ $message => $data ], $statusCode);
     }
