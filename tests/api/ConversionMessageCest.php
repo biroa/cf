@@ -11,20 +11,6 @@ class ConversionMessageCest
     }
 
     /**
-     * getAll record
-     *
-     * @param \ApiTester $I
-     */
-    public function index(ApiTester $I)
-    {
-        $I->wantTo('Get all user related conversion messages.');
-        $I->sendGET('http://currencyfairtest.com/api/messages');
-        $I->seeResponseCodeIs(200);
-        $I->seeResponseIsJson('SUCCESS');
-        $I->seeResponseContains('userId');
-    }
-
-    /**
      * create a conversion message
      *
      * @param \ApiTester $I
@@ -44,6 +30,20 @@ class ConversionMessageCest
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseContains('SUCCESS');
+    }
+
+
+    /**
+     * getAll record
+     *
+     * @param \ApiTester $I
+     */
+    public function index(ApiTester $I)
+    {
+        $I->wantTo('Get all user related conversion messages.');
+        $I->sendGET('http://currencyfairtest.com/api/messages');
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson('SUCCESS');
     }
 
     /**
