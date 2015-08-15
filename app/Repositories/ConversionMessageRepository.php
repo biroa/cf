@@ -4,12 +4,15 @@ use Cfair\ConversionMessage;
 use Cfair\Interfaces\ConversionMessageInterface;
 use PhpSpec\Exception\Exception;
 
+
 class ConversionMessageRepository implements ConversionMessageInterface
 {
 
     private $data;
-    protected $forbiddenError = 400;
-    protected $noErrorSuccess = 200;
+    private $forbiddenError = 400;
+    private $noErrorSuccess = 200;
+    private $statusCode;
+    private $response;
 
     public function __construct()
     {
@@ -24,13 +27,12 @@ class ConversionMessageRepository implements ConversionMessageInterface
     public function getAll()
     {
         try {
-            $statusCode = $this->noErrorSuccess;
-
-            $this->data->all();
+            $this->statusCode = $this->noErrorSuccess;
+            $this->response = $this->data->all();
         } catch ( Exception $e ) {
-            $statusCode = $this->forbiddenError;
+            $this->statusCode = $this->forbiddenError;
         } finally {
-            return [ $this->data, $statusCode ];
+            return [ $this->response, $this->statusCode ];
         }
     }
 
@@ -44,12 +46,12 @@ class ConversionMessageRepository implements ConversionMessageInterface
     public function find($id)
     {
         try {
-            $statusCode = $this->noErrorSuccess;
-            $this->data->find($id);
+            $this->statusCode = $this->noErrorSuccess;
+            $this->response = $this->data->find($id);
         } catch ( Exception $e ) {
-            $statusCode = $this->forbiddenError;
+            $this->statusCode = $this->forbiddenError;
         } finally {
-            return [ $this->data, $statusCode ];
+            return [ $this->response, $this->statusCode ];
         }
 
     }
@@ -64,12 +66,12 @@ class ConversionMessageRepository implements ConversionMessageInterface
     public function findByUserId($userID)
     {
         try {
-            $statusCode = $this->noErrorSuccess;
+            $this->statusCode = $this->noErrorSuccess;
             $this->data = $this->data->where('userId', '=', $userID)->get();
         } catch ( Exception $e ) {
-            $statusCode = $this->forbiddenError;
+            $this->statusCode = $this->forbiddenError;
         } finally {
-            return [ $this->data, $statusCode ];
+            return [ $this->data, $this->statusCode ];
         }
 
     }
@@ -124,12 +126,11 @@ class ConversionMessageRepository implements ConversionMessageInterface
                 $this->data->$fields = $value;
             }
 
-            $this->data->originatingCountry = $this->getIP();
             if ( !empty($input['amountSell']) && !empty($input['amountBuy']) ) {
-                $statusCode = $this->forbiddenError;
+                $this->statusCode = $this->forbiddenError;
                 $errors = $this->data->ruleSellAndBuyFilled();
 
-                return [ $errors, $statusCode ];
+                return [ $errors, $this->statusCode ];
 
             } elseif ( !empty($input['amountSell']) && empty($input['amountBuy']) ) {
                 $this->data->amountSell = $input['amountSell'];
@@ -143,29 +144,29 @@ class ConversionMessageRepository implements ConversionMessageInterface
                 $base = $this->data->amountBuy;
                 $this->data->conversion = $this->data->setBuyConversion($base, $this->data->rate);
             } else {
-                $statusCode = $this->forbiddenError;
+                $this->statusCode = $this->forbiddenError;
                 $errors = $this->data->ruleSellAndBuyUnknown();
 
-                return [ $errors, $statusCode ];
+                return [ $errors, $this->statusCode ];
             }
-
+            $this->data->originatingCountry = $this->getIP();
             $this->data->timePlaced = $this->data->setTimePlaced($input['timePlaced']);
             \DB::beginTransaction();
             if ( $this->data->save() ) {
-                $statusCode = $this->noErrorSuccess;
+                $this->statusCode = $this->noErrorSuccess;
                 \DB::commit();
-                return [ $this->data, $statusCode ];
+                return [ $this->data, $this->statusCode ];
             }
 
             \DB::rollback();
-            $statusCode = $this->forbiddenError;
-            return [ $this->data, $statusCode ];
+            $this->statusCode = $this->forbiddenError;
+            return [ $this->data, $this->statusCode ];
 
         } else {
-            $statusCode = $this->forbiddenError;
+            $this->statusCode = $this->forbiddenError;
             $errors = $this->data->errors();
 
-            return [ $errors, $statusCode ];
+            return [ $errors, $this->statusCode ];
         }
 
     }

@@ -2,6 +2,14 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property  bool        is_sell
+ * @property  string      conversion
+ * @property  mixed       amountSell
+ * @property  mixed       amountBuy
+ * @property  mixed       rate
+ * @property  bool|string timePlaced
+ */
 class ConversionMessage extends Model
 {
     public $defaultIP = '89.100.85.240';

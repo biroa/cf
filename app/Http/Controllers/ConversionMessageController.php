@@ -5,7 +5,6 @@ use Cfair\Interfaces\ConversionMessageInterface;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Routing\ResponseFactory as Response;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Log;
 
 class ConversionMessageController extends Controller
 {

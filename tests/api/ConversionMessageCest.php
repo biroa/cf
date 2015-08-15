@@ -47,6 +47,32 @@ class ConversionMessageCest
     }
 
     /**
+     * get one record based on pk
+     *
+     * @param \ApiTester $I
+     */
+    public function show(ApiTester $I)
+    {
+        $I->wantTo('Get all user related conversion messages.');
+        $I->sendGET('http://currencyfairtest.com/api/messages/1');
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson('SUCCESS');
+    }
+
+    /**
+     * getAll record
+     *
+     * @param \ApiTester $I
+     */
+    public function getAll(ApiTester $I)
+    {
+        $I->wantTo('Get all user related conversion messages.');
+        $I->sendGET('http://currencyfairtest.com/api/messages');
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson('SUCCESS');
+    }
+
+    /**
      * @param \ApiTester $I
      */
     public function missingTimePlacedError(ApiTester $I)
