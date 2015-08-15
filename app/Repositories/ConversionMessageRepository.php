@@ -110,6 +110,7 @@ class ConversionMessageRepository implements ConversionMessageInterface
         return $this->data->defaultIP;
     }
 
+
     /**
      * @param $input
      *
@@ -119,7 +120,6 @@ class ConversionMessageRepository implements ConversionMessageInterface
     {
 
         if ( $this->data->validate($input) ) {
-
             foreach ( $input as $fields => $value ) {
                 $this->data->$fields = $value;
             }
@@ -150,14 +150,15 @@ class ConversionMessageRepository implements ConversionMessageInterface
             }
 
             $this->data->timePlaced = $this->data->setTimePlaced($input['timePlaced']);
+            \DB::beginTransaction();
             if ( $this->data->save() ) {
                 $statusCode = $this->noErrorSuccess;
-
+                \DB::commit();
                 return [ $this->data, $statusCode ];
             }
 
+            \DB::rollback();
             $statusCode = $this->forbiddenError;
-
             return [ $this->data, $statusCode ];
 
         } else {
