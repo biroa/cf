@@ -22,6 +22,7 @@ Route::controllers([
     'password' => 'Auth\PasswordController',
 ]);
 Route::resource('api/messages', 'ConversionMessageController');
+Route::get('api/currencies', 'CurrencyController@index'); //only get allowed
 
 //Todo:: remove after at the end of the work
 Event::listen('illuminate.query', function($query)
