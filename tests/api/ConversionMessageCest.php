@@ -53,7 +53,7 @@ class ConversionMessageCest
      */
     public function show(ApiTester $I)
     {
-        $I->wantTo('Get all user related conversion messages.');
+        $I->wantTo('Get one conversion message by pk.');
         $I->sendGET('http://currencyfairtest.com/api/messages/1');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson('SUCCESS');

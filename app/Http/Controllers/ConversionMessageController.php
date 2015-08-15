@@ -13,10 +13,11 @@ class ConversionMessageController extends Controller
     protected $userID;
     protected $response;
     protected $statusMsg;
-    protected $errorAPI = 'ERROR';
-    protected $successAPI = 'SUCCESS';
-    protected $forbiddenError = 400;
-    protected $noErrorSuccess = 200;
+    protected static $errorAPI = 'ERROR';
+    protected static $successAPI = 'SUCCESS';
+    protected static $forbiddenError = 400;
+    protected static $noErrorSuccess = 200;
+
 
     public function __construct(ConversionMessageInterface $conversionMessage, Response $factory)
     {
@@ -34,10 +35,10 @@ class ConversionMessageController extends Controller
      * @return string
      */
     public function messageByStatusCode($statusCode){
-        if ( $statusCode == $this->noErrorSuccess ) {
-            $this->statusMsg = $this->successAPI;
-        } elseif ( $statusCode == $this->forbiddenError ) {
-            $this->statusMsg = $this->errorAPI;
+        if ( $statusCode == self::$noErrorSuccess ) {
+            $this->statusMsg = self::$successAPI;
+        } elseif ( $statusCode == self::$forbiddenError ) {
+            $this->statusMsg = self::$errorAPI;
         }
 
         return $this->statusMsg;
