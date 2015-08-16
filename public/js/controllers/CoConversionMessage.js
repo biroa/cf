@@ -23,8 +23,8 @@ App.filter('dateMod', function () {
         var date = new Date(input);
         var tbc = 1;
         var newYear = date.getFullYear().toString().substr(2, 2);
-        var monthIndex = date.getMonth() -1;
-        var newMonth = parseInt(date.getMonth() - tbc) < 10 ? ("0" + (date.getMonth() - tbc)).slice(-2) : (date.getMonth() - tbc);
+        var monthIndex = date.getMonth();
+        var newMonth = parseInt(date.getMonth() + tbc) < 10 ? ("0" + (date.getMonth() + tbc)).slice(-2) : (date.getMonth() + tbc);
         var newDay = ("0" + (date.getDate())).slice(-2);
         var newHours = ("0" + (date.getHours())).slice(-2);
         var newMinutes = ("0" + (date.getMinutes())).slice(-2);
