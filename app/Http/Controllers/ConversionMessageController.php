@@ -22,7 +22,8 @@ class ConversionMessageController extends Controller
     public function __construct(ConversionMessageInterface $conversionMessage, Response $factory)
     {
         //authenticating messages route with middleware
-        $this->middleware('auth');
+        //Todo:: I have to uncomment this line to have authentication
+        //$this->middleware('auth');
         $this->conversionMessage = $conversionMessage;
         $this->response = $factory;
     }

@@ -7,7 +7,9 @@ class CurrencyController extends Controller
 {
 
     public function __construct(){
-        $this->middleware('auth');
+        //authenticating messages route with middleware
+        //Todo:: I have to uncomment this line to have authentication
+        //$this->middleware('auth');
     }
 
     /**
